@@ -1633,7 +1633,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Ouit
+  m_text: 'Quit
 
 '
   m_isRightToLeft: 0
