@@ -113,7 +113,7 @@ public class MainGame : MonoBehaviour
         gameOver = false;
 
         // This can change to the main menu instead when it's done
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("MainGame");
     }
 
     public void Winner(int teamWinner)
