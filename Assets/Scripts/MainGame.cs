@@ -25,6 +25,8 @@ public class MainGame : MonoBehaviour
     private bool doubleMove;
 
 
+    public CardController cardController;
+
     private void Start()
     {
         whitePieces = new GameObject[] { InstantiatePiece("WhitePawn", 0, 1), InstantiatePiece("WhitePawn", 1, 1), 
@@ -100,6 +102,7 @@ public class MainGame : MonoBehaviour
 
     public void ChangeTurn()
     {
+
         if (doubleMove)
         {
             doubleMove = false;
@@ -113,6 +116,7 @@ public class MainGame : MonoBehaviour
         {
             currentPlayerTurn = 0;
         }
+        cardController.ChangeTurn(currentPlayerTurn);
     }
 
     public void DoubleMove()
