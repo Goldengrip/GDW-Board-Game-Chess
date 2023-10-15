@@ -22,6 +22,8 @@ public class MainGame : MonoBehaviour
     public int currentPlayerTurn; // 0 is white, 1 is black
     public bool gameOver;
 
+    private bool doubleMove;
+
 
     private void Start()
     {
@@ -98,6 +100,11 @@ public class MainGame : MonoBehaviour
 
     public void ChangeTurn()
     {
+        if (doubleMove)
+        {
+            doubleMove = false;
+            return;
+        }
         if(currentPlayerTurn == 0)
         {
             currentPlayerTurn = 1;
@@ -106,6 +113,11 @@ public class MainGame : MonoBehaviour
         {
             currentPlayerTurn = 0;
         }
+    }
+
+    public void DoubleMove()
+    {
+        doubleMove = true;
     }
 
     public void RestartGame()
