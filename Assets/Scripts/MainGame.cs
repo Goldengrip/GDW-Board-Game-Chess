@@ -18,6 +18,7 @@ public class MainGame : MonoBehaviour
     public TMP_Text winnerTxt;
     public TMP_Text restartTxt;
     public Button button;
+    public GameObject winnerScreen;
 
     [Header("Promotion buttons")]
     public GameObject background;
@@ -140,6 +141,7 @@ public class MainGame : MonoBehaviour
         {
             currentPlayerTurn = 1;
             currentTurnTxt.text = "Black's Turn";
+            currentTurnTxt.color = Color.black;
 
             if (blackRecall)
             {
@@ -167,6 +169,7 @@ public class MainGame : MonoBehaviour
         {
             currentPlayerTurn = 0;
             currentTurnTxt.text = "White's Turn";
+            currentTurnTxt.color = Color.white;
 
             if (whiteRecall)
             {
@@ -301,7 +304,6 @@ public class MainGame : MonoBehaviour
             winnerTxt.text = "Black wins!";
         }
 
-        restartTxt.enabled = true;
-        button.enabled = true;
+        winnerScreen.SetActive(true);
     }
 }
