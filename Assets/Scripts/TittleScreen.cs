@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class TittleScreen : MonoBehaviour
 {
+    public Animator fadeAnim;
+
     private void Start()
     {
         StartCoroutine("Timer");
@@ -12,6 +14,8 @@ public class TittleScreen : MonoBehaviour
 
     IEnumerator Timer()
     {
+        yield return new WaitForSeconds(2f);
+        fadeAnim.SetBool("FadeOut", true);
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("MainMenu");
     }
