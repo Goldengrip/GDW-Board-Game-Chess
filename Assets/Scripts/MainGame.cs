@@ -12,6 +12,7 @@ public class MainGame : MonoBehaviour
 
     [Header("Important UI")]
     public TMP_Text currentTurnTxt;
+    public TMP_Text usefulTxt;
 
     [Header("Game ended UI")]
     public TMP_Text winnerTxt;
@@ -127,6 +128,7 @@ public class MainGame : MonoBehaviour
 
     public void ChangeTurn()
     {
+        usefulTxt.text = "";
         phase = false;
         wallLoop = false;
         if (doubleMove)
@@ -210,6 +212,8 @@ public class MainGame : MonoBehaviour
     {
         recalling = true;
 
+        usefulTxt.text = "Click a piece you would like to recall";
+
         if(currentPlayerTurn == 0)
         {
             whiteRecall = true;
@@ -223,8 +227,7 @@ public class MainGame : MonoBehaviour
             recallTurnCountTxt.text = blackRecallTurnCount.ToString();
         }
         
-        recallButton.SetActive(true);
-        recallTurnCountTxt.gameObject.SetActive(true);
+        
     }
 
     public void TriggerRecall()
@@ -239,7 +242,7 @@ public class MainGame : MonoBehaviour
             }
             else
             {
-                Debug.Log("Can't recall");
+                usefulTxt.text = "Can't recall";
             }
         }
         else
@@ -252,7 +255,7 @@ public class MainGame : MonoBehaviour
             }
             else
             {
-                Debug.Log("Can't recall");
+                usefulTxt.text = "Can't recall";
             }
         }
         
@@ -261,6 +264,7 @@ public class MainGame : MonoBehaviour
     public void PromotionSelection()
     {
         promoting = true;
+        usefulTxt.text = "Choose a piece you would like to promote";
     }
 
     public void KnightPromotion()

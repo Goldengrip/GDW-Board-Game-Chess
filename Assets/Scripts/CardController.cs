@@ -45,7 +45,7 @@ public class CardController : MonoBehaviour
         {
             blackTurnCounter++;
 
-            if (blackTurnCounter >= numTurnsToGiveCard && blackInventory.Count <= maxCards)
+            if (blackTurnCounter >= numTurnsToGiveCard && blackInventory.Count < maxCards)
             {
                 int x = UnityEngine.Random.Range(0, cardsPrefabs.Length);
                 blackInventory.Add(cardsPrefabs[x]);

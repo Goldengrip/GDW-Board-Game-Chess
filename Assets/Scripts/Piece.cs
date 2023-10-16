@@ -61,11 +61,13 @@ public class Piece : MonoBehaviour
             {
                 Promote();
                 mainGame.promoting = false;
+                mainGame.usefulTxt.text = "";
                 return;
             }
             else
             {
                 mainGame.promoting = false;
+                mainGame.usefulTxt.text = "Can't promote this piecce";
             }
         }
 
@@ -73,6 +75,9 @@ public class Piece : MonoBehaviour
         {
             SetRecallPos();
             mainGame.recalling = false;
+            mainGame.recallButton.SetActive(true);
+            mainGame.recallTurnCountTxt.gameObject.SetActive(true);
+            mainGame.usefulTxt.text = "";
             return;
         }
 
