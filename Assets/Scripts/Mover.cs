@@ -50,6 +50,7 @@ public class Mover : MonoBehaviour
         pieceScript.posX = moverPosX;
         pieceScript.posY = moverPosY;
         pieceScript.SetPosition();
+        pieceScript.pawnFirstTurn = false;
 
         mainGame.SetPos(reference);
 

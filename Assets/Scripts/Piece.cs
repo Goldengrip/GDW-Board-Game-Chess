@@ -21,6 +21,9 @@ public class Piece : MonoBehaviour
 
     private int recallPosX, recallPosY;
 
+    [HideInInspector]
+    public bool pawnFirstTurn = true;
+
     private void Start()
     {
         mainGame = GameObject.Find("GameController").GetComponent<MainGame>();
@@ -371,8 +374,13 @@ public class Piece : MonoBehaviour
             {
                 MoverSpawn(x,y);
             }
+            if (pawnFirstTurn && mainGame.IsPositionOnBoard(x, (y - (posY - y))) && mainGame.GetPiecePos(x, (y - (posY - y))) == null)
+            {
+                MoverSpawn(x, (y - (posY - y)));
+                //pawnFirstTurn = false;
+            }
 
-            if(mainGame.IsPositionOnBoard(x + 1, y) && mainGame.GetPiecePos(x + 1, y) != null 
+            if (mainGame.IsPositionOnBoard(x + 1, y) && mainGame.GetPiecePos(x + 1, y) != null 
                 && mainGame.GetPiecePos(x + 1, y).GetComponent<Piece>().team != team)
             {
                 MoverAttackSpawn(x + 1, y);
