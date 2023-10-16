@@ -14,7 +14,8 @@ public class CardController : MonoBehaviour
 
     public GameObject[] cardsPrefabs;
 
-    private List<GameObject> whiteInventory = new List<GameObject>(), blackInventory = new List<GameObject>(), activeCards = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> whiteInventory = new List<GameObject>(), blackInventory = new List<GameObject>(), activeCards = new List<GameObject>();
 
     private int currentPlayerTurn;
 
@@ -30,7 +31,7 @@ public class CardController : MonoBehaviour
         {
             whiteTurnCounter++;
 
-            if(whiteTurnCounter == numTurnsToGiveCard)
+            if(whiteTurnCounter >= numTurnsToGiveCard && whiteInventory.Count < maxCards)
             {
                 int x = UnityEngine.Random.Range(0, cardsPrefabs.Length);
                 whiteInventory.Add(cardsPrefabs[x]);
@@ -44,7 +45,7 @@ public class CardController : MonoBehaviour
         {
             blackTurnCounter++;
 
-            if (blackTurnCounter == numTurnsToGiveCard)
+            if (blackTurnCounter >= numTurnsToGiveCard && blackInventory.Count <= maxCards)
             {
                 int x = UnityEngine.Random.Range(0, cardsPrefabs.Length);
                 blackInventory.Add(cardsPrefabs[x]);
@@ -58,23 +59,33 @@ public class CardController : MonoBehaviour
 
     private void ShowWhiteCards()
     {
+        int i = 0;
         foreach(var card in whiteInventory)
         {
             GameObject cardObject = Instantiate(card);
             cardObject.transform.SetParent(cardInventoryParent.transform);
 
+            cardObject.GetComponent<Card>().cardID = i;
+            cardObject.GetComponent<Card>().team = 0;
+
             activeCards.Add(cardObject);
+            i++;
         }
     }
 
     private void ShowBlackCards()
     {
+        int i = 0;
         foreach (var card in blackInventory)
         {
             GameObject cardObject = Instantiate(card);
             cardObject.transform.SetParent(cardInventoryParent.transform);
 
+            cardObject.GetComponent<Card>().cardID = i;
+            cardObject.GetComponent<Card>().team = 1;
+
             activeCards.Add(cardObject);
+            i++;
         }
     }
 

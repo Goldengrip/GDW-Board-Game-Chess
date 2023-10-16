@@ -10,20 +10,42 @@ public class MainGame : MonoBehaviour
 {
     public GameObject chessPiecePrefab;
 
+    [Header("Game ended UI")]
     public TMP_Text winnerTxt;
     public TMP_Text restartTxt;
     public Button button;
 
-    private GameObject[,] allPositions = new GameObject[8, 8]; // All posible positions on the board
+    [Header("Promotion buttons")]
+    public GameObject background;
+
+
+
+    [HideInInspector]
+    public GameObject[,] allPositions = new GameObject[8, 8]; // All posible positions on the board
 
     private GameObject[] whitePieces = new GameObject[16]; // The 16 pieces for white
     private GameObject[] blackPieces = new GameObject[16]; // The 16 pieces for black
-
+    [Header("Other")]
     public int currentPlayerTurn; // 0 is white, 1 is black
     public bool gameOver;
 
     private bool doubleMove;
+    [HideInInspector]
+    public bool phase;
+    [HideInInspector]
+    public bool promoting;
+    [HideInInspector]
+    public bool wallLoop;
+    [HideInInspector]
+    public bool whiteRecall, blackRecall, recalling;
 
+    public int turnsRecallIsAvailable = 3;
+    private int whiteRecallTurnCount, blackRecallTurnCount;
+    public GameObject recallButton;
+    public TMP_Text recallTurnCountTxt;
+
+    public GameObject promotionPiece;
+    public GameObject whiteRecallPiece, blackRecallPiece;
 
     public CardController cardController;
 
@@ -102,7 +124,8 @@ public class MainGame : MonoBehaviour
 
     public void ChangeTurn()
     {
-
+        phase = false;
+        wallLoop = false;
         if (doubleMove)
         {
             doubleMove = false;
@@ -111,10 +134,44 @@ public class MainGame : MonoBehaviour
         if(currentPlayerTurn == 0)
         {
             currentPlayerTurn = 1;
+
+            if (blackRecall)
+            {
+                blackRecallTurnCount--;
+                recallTurnCountTxt.text = blackRecallTurnCount.ToString();
+                if (blackRecallTurnCount == 0)
+                {
+                    blackRecall = false;
+                    recallButton.SetActive(false);
+                    recallTurnCountTxt.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                recallButton.SetActive(false);
+                recallTurnCountTxt.gameObject.SetActive(false);
+            }
         }
         else
         {
             currentPlayerTurn = 0;
+
+            if (whiteRecall)
+            {
+                whiteRecallTurnCount--;
+                recallTurnCountTxt.text = whiteRecallTurnCount.ToString();
+                if (whiteRecallTurnCount == 0)
+                {
+                    whiteRecall = false;
+                    recallButton.SetActive(false);
+                    recallTurnCountTxt.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                recallButton.SetActive(false);
+                recallTurnCountTxt.gameObject.SetActive(false);
+            }
         }
         cardController.ChangeTurn(currentPlayerTurn);
     }
@@ -122,6 +179,85 @@ public class MainGame : MonoBehaviour
     public void DoubleMove()
     {
         doubleMove = true;
+    }
+
+    public void Phase()
+    {
+        phase = true;
+    }
+
+    public void WallLoop()
+    {
+        wallLoop = true;
+    }
+
+    public void Recall()
+    {
+        recalling = true;
+
+        if(currentPlayerTurn == 0)
+        {
+            whiteRecall = true;
+            whiteRecallTurnCount = turnsRecallIsAvailable;
+            recallTurnCountTxt.text = whiteRecallTurnCount.ToString();
+        }
+        else
+        {
+            blackRecall = true;
+            blackRecallTurnCount = turnsRecallIsAvailable;
+            recallTurnCountTxt.text = blackRecallTurnCount.ToString();
+        }
+        
+        recallButton.SetActive(true);
+        recallTurnCountTxt.gameObject.SetActive(true);
+    }
+
+    public void TriggerRecall()
+    {
+        if(currentPlayerTurn == 0)
+        {
+            if (whiteRecallPiece.GetComponent<Piece>().Recall())
+            {
+                whiteRecall = false;
+                recallButton.SetActive(true);
+                recallTurnCountTxt.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("Can't recall");
+            }
+        }
+        else
+        {
+            if (blackRecallPiece.GetComponent<Piece>().Recall())
+            {
+                blackRecall = false;
+                recallButton.SetActive(true);
+                recallTurnCountTxt.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("Can't recall");
+            }
+        }
+        
+    }
+
+    public void PromotionSelection()
+    {
+        promoting = true;
+    }
+
+    public void KnightPromotion()
+    {
+        promotionPiece.GetComponent<Piece>().KnightPromotion();
+        promotionPiece = null;
+    }
+
+    public void BishopPromotion()
+    {
+        promotionPiece.GetComponent<Piece>().BishopPromotion();
+        promotionPiece = null;
     }
 
     public void RestartGame()

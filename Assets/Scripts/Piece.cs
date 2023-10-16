@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Piece : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Piece : MonoBehaviour
 
     [HideInInspector]
     public int posX, posY;
+
+    private int recallPosX, recallPosY;
 
     private void Start()
     {
@@ -53,6 +56,27 @@ public class Piece : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (mainGame.promoting == true)
+        {
+            if(this.name != "BlackQueen" && this.name != "WhiteQueen" && this.name != "BlackKing" && this.name != "WhiteKing")
+            {
+                Promote();
+                mainGame.promoting = false;
+                return;
+            }
+            else
+            {
+                mainGame.promoting = false;
+            }
+        }
+
+        if(mainGame.recalling == true)
+        {
+            SetRecallPos();
+            mainGame.recalling = false;
+            return;
+        }
+
         if (!mainGame.gameOver && mainGame.currentPlayerTurn == team)
         {
             DestroyMover();
@@ -60,7 +84,120 @@ public class Piece : MonoBehaviour
             InitiateMover();
         }
     }
-    
+
+    private void SetRecallPos()
+    {
+        if(team == 0)
+        {
+            mainGame.whiteRecallPiece = this.gameObject;
+        }
+        else
+        {
+            mainGame.blackRecallPiece = this.gameObject;
+        }
+
+        recallPosX = posX;
+        recallPosY = posY;
+    }
+
+    public bool Recall()
+    {
+        if(mainGame.GetPiecePos(recallPosX, recallPosY) == null)
+        {
+            mainGame.RemovePiecePos(posX, posY);
+
+            posX = recallPosX;
+            posY = recallPosY;
+            SetPosition();
+
+            mainGame.SetPos(this.gameObject);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void Promote()
+    {
+        //mainGame.ShowPromotionScreen(this.name, posX, posY);
+
+        if (this.name == "BlackPawn" || this.name == "WhitePawn")
+        {
+            mainGame.promotionPiece = this.gameObject;
+
+            mainGame.background.gameObject.SetActive(true);
+        }
+        else if (this.name == "BlackKnight" || this.name == "WhiteKnight" || this.name == "BlackBishop" || this.name == "WhiteBishop")
+        {
+            RookPromotion();
+        }
+        else if (this.name == "BlackRook" || this.name == "WhiteRook")
+        {
+            QueenPromotion();
+        }
+    }
+
+    public void KnightPromotion()
+    {
+        mainGame.background.gameObject.SetActive(false);
+        if (team == 0)
+        {
+            this.name = "WhiteKnight";
+        }
+        else if (team == 1)
+        {
+            this.name = "BlackKnight";
+        }
+
+        GetSprite();
+    }
+
+    public void BishopPromotion()
+    {
+        mainGame.background.gameObject.SetActive(false);
+        if (team == 0)
+        {
+            this.name = "WhiteBishop";
+        }
+        else if (team == 1)
+        {
+            this.name = "BlackBishop";
+        }
+
+        GetSprite();
+    }
+
+    private void RookPromotion()
+    {
+        if (team == 0)
+        {
+            this.name = "WhiteRook";
+        }
+        else if (team == 1)
+        {
+            this.name = "BlackRook";
+        }
+
+        GetSprite();
+    }
+
+    private void QueenPromotion()
+    {
+        if (team == 0)
+        {
+            this.name = "WhiteQueen";
+        }
+        else if (team == 1)
+        {
+            this.name = "BlackQueen";
+        }
+
+        GetSprite();
+    }
+
     public void DestroyMover()
     {
         GameObject[] movers = GameObject.FindGameObjectsWithTag("Mover");
@@ -122,11 +259,57 @@ public class Piece : MonoBehaviour
         int x = posX + xNum;
         int y = posY + yNum;
 
-        while (mainGame.IsPositionOnBoard(x, y) && mainGame.GetPiecePos(x,y) == null)
+        if (mainGame.phase)
         {
-            MoverSpawn(x,y);
-            x += xNum;
-            y += yNum;
+            while (mainGame.IsPositionOnBoard(x, y))
+            {
+                if(mainGame.GetPiecePos(x, y) == null)
+                {
+                    MoverSpawn(x, y);
+                }
+                else if(mainGame.GetPiecePos(x, y).GetComponent<Piece>().team != team)
+                {
+                    break;
+                }
+                x += xNum;
+                y += yNum;
+            }
+            
+        }
+        else if (mainGame.wallLoop)
+        {
+            while (mainGame.IsPositionOnBoard(x, y) && mainGame.GetPiecePos(x, y) == null)
+            {
+                MoverSpawn(x, y);
+                x += xNum;
+                y += yNum;
+            }
+            if(!mainGame.IsPositionOnBoard(x, 1))
+            {
+                if(x < 0)
+                {
+                    x = mainGame.allPositions.GetLength(0) - 1;
+                }
+                else
+                {
+                    x = 0;
+                }
+                while (mainGame.IsPositionOnBoard(x, y) && mainGame.GetPiecePos(x, y) == null)
+                {
+                    MoverSpawn(x, y);
+                    x += xNum;
+                    y += yNum;
+                }
+            }
+        }
+        else
+        {
+            while (mainGame.IsPositionOnBoard(x, y) && mainGame.GetPiecePos(x, y) == null)
+            {
+                MoverSpawn(x, y);
+                x += xNum;
+                y += yNum;
+            }
         }
 
         if(mainGame.IsPositionOnBoard(x,y) && mainGame.GetPiecePos(x,y).GetComponent<Piece>().team != team)
