@@ -145,6 +145,11 @@ public class MainGame : MonoBehaviour
                     recallButton.SetActive(false);
                     recallTurnCountTxt.gameObject.SetActive(false);
                 }
+                else
+                {
+                    recallButton.SetActive(true);
+                    recallTurnCountTxt.gameObject.SetActive(true);
+                }
             }
             else
             {
@@ -165,6 +170,11 @@ public class MainGame : MonoBehaviour
                     whiteRecall = false;
                     recallButton.SetActive(false);
                     recallTurnCountTxt.gameObject.SetActive(false);
+                }
+                else
+                {
+                    recallButton.SetActive(true);
+                    recallTurnCountTxt.gameObject.SetActive(true);
                 }
             }
             else
@@ -219,8 +229,8 @@ public class MainGame : MonoBehaviour
             if (whiteRecallPiece.GetComponent<Piece>().Recall())
             {
                 whiteRecall = false;
-                recallButton.SetActive(true);
-                recallTurnCountTxt.gameObject.SetActive(true);
+                recallButton.SetActive(false);
+                recallTurnCountTxt.gameObject.SetActive(false);
             }
             else
             {
@@ -232,8 +242,8 @@ public class MainGame : MonoBehaviour
             if (blackRecallPiece.GetComponent<Piece>().Recall())
             {
                 blackRecall = false;
-                recallButton.SetActive(true);
-                recallTurnCountTxt.gameObject.SetActive(true);
+                recallButton.SetActive(false);
+                recallTurnCountTxt.gameObject.SetActive(false);
             }
             else
             {
