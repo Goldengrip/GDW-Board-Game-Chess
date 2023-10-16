@@ -101,14 +101,14 @@ MonoBehaviour:
   mover: {fileID: 9049539752471883346, guid: 70c09ba5eee55bd4a84ad135ace6f255, type: 3}
   whitePawnSprite: {fileID: 21300000, guid: 23cba68c7bee98f409226dbc09fa905a, type: 3}
   whiteRookSprite: {fileID: 21300000, guid: a8190709a6037344fa8dfc7b07f675ff, type: 3}
-  whiteKnightSprite: {fileID: -445832253, guid: 6d39554eab0d1104f97a4bbf13c31f1e, type: 3}
-  whiteBishopSprite: {fileID: -994798169, guid: 6d39554eab0d1104f97a4bbf13c31f1e, type: 3}
+  whiteKnightSprite: {fileID: 21300000, guid: 47192fa69eabd204c8f70f4731c8daa4, type: 3}
+  whiteBishopSprite: {fileID: 21300000, guid: e589bd978a6574d4f8ebd086de2bf2be, type: 3}
   whiteKingSprite: {fileID: 21300000, guid: 4bae113c3965b554aa2e16e90e452996, type: 3}
   whiteQueenSprite: {fileID: 21300000, guid: 4114945217c8ff046b1e5f3303447ca8, type: 3}
   blackPawnSprite: {fileID: 21300000, guid: 023cca81baf4e5c42b6fd5c01cb1abf8, type: 3}
   blackRookSprite: {fileID: 21300000, guid: c1b1566ec82923343a820a1cb92f0cf3, type: 3}
   blackKnightSprite: {fileID: 21300000, guid: f4909aeead220054dbc775502cd479e0, type: 3}
-  blackBishopSprite: {fileID: -994798169, guid: 6d39554eab0d1104f97a4bbf13c31f1e, type: 3}
+  blackBishopSprite: {fileID: 21300000, guid: 5ddb80a386e45354ea8d3467c55fea04, type: 3}
   blackKingSprite: {fileID: 21300000, guid: 0604328bb31ca7c4f82941b0e805f7e2, type: 3}
   blackQueenSprite: {fileID: 21300000, guid: 053d3a83351fe374f9475b9b1a3faa11, type: 3}
   posX: 0

@@ -10,6 +10,9 @@ public class MainGame : MonoBehaviour
 {
     public GameObject chessPiecePrefab;
 
+    [Header("Important UI")]
+    public TMP_Text currentTurnTxt;
+
     [Header("Game ended UI")]
     public TMP_Text winnerTxt;
     public TMP_Text restartTxt;
@@ -134,6 +137,7 @@ public class MainGame : MonoBehaviour
         if(currentPlayerTurn == 0)
         {
             currentPlayerTurn = 1;
+            currentTurnTxt.text = "Black's Turn";
 
             if (blackRecall)
             {
@@ -160,6 +164,7 @@ public class MainGame : MonoBehaviour
         else
         {
             currentPlayerTurn = 0;
+            currentTurnTxt.text = "White's Turn";
 
             if (whiteRecall)
             {
