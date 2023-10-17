@@ -373,12 +373,13 @@ public class Piece : MonoBehaviour
             if(mainGame.GetPiecePos(x,y) == null)
             {
                 MoverSpawn(x,y);
+                if (pawnFirstTurn && mainGame.IsPositionOnBoard(x, (y - (posY - y))) && mainGame.GetPiecePos(x, (y - (posY - y))) == null)
+                {
+                    MoverSpawn(x, (y - (posY - y)));
+                    //pawnFirstTurn = false;
+                }
             }
-            if (pawnFirstTurn && mainGame.IsPositionOnBoard(x, (y - (posY - y))) && mainGame.GetPiecePos(x, (y - (posY - y))) == null)
-            {
-                MoverSpawn(x, (y - (posY - y)));
-                //pawnFirstTurn = false;
-            }
+            
 
             if (mainGame.IsPositionOnBoard(x + 1, y) && mainGame.GetPiecePos(x + 1, y) != null 
                 && mainGame.GetPiecePos(x + 1, y).GetComponent<Piece>().team != team)
